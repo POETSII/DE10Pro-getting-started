@@ -69,10 +69,25 @@ export PATH=$QUARTUS_ROOTDIR/bin:$PATH
 ```
 
 On CL servers these are combined in a script, which takes as a parameter the
-version of Quartus you want (multiple can be installed).  This only works in
+version of Quartus you want (multiple may be installed).  This only works in
 bash, not other shells:
 
 ```
 waltham:$ source /local/ecad/setup.bash 19.2pro
 ```
+
+Running Quartus
+---------------
+
+To run Quartus GUI, enter:
+
+```
+quartus &
+```
+
+After a short while, the large Quartus window should pop up.  If you then go
+to Tools -> License Setup you should see a long list of licences provided by
+the licence setup.  (If you are prompted about installing devices, or asked
+what to do about licences, something went wrong in your installation or
+licence config respectively).
 
