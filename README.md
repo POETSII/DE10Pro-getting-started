@@ -42,10 +42,18 @@ SUBSYSTEM=="usb", ATTR{idVendor}=="09fb", ATTR{idProduct}=="6810", MODE="0666", 
 EOF
 
 sudo udevadm control --reload-rules
-# may need to unplug and replug FPGA USB cable if attached
 ```
 
-Running Quartus
+You may need to unplug and replug FPGA USB cable if it is already attached
+when the rules are reloaded.
+
+/Virtual machine/: If running Ubuntu in a VM (eg VirtualBox), in your
+hypervisor config create mappings to passthrough USB devices with the vendor
+IDs and product IDs listed above - you will probably only need those in the
+USB Blaster II section.
+
+
+Quartus licensing
 ---------------
 
 Whenever you run Quartus, you will need to provide it with a licence server:
