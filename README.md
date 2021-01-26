@@ -8,6 +8,9 @@ They assume an x86_64 machine running a recent Ubuntu LTS (both 18.04 and 20.04
 should work).  A virtual machine is acceptable although you will have to do
 some USB passthrough for JTAG programming.
 
+You will need about 62GiB free space in total, although you can recover
+about 20GiB by deleting the Quartus installer files.  It requires about
+30GiB of downloads.
 
 Install Quartus Pro
 -------------------
@@ -98,6 +101,8 @@ to Tools -> License Setup you should see a long list of licences provided by
 the licence setup.  (If you are prompted about installing devices, or asked
 what to do about licences, something went wrong in your installation or
 licence config respectively).
+
+It is now safe to remove your quartus-install tree to save about 23GiB.
 
 
 ARM (HPS) template project for the DE10-Pro SX
