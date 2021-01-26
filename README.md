@@ -14,7 +14,7 @@ Install Quartus Pro
 
 The current recommended version is 19.2 Pro (this is different from the
 'Lite' or 'Standard' versions).  Please note that porting from one version
-of Quartus to another is *not straightforward* and you should think
+of Quartus to another is **not straightforward** and you should think
 carefully before building with a different version.
 
 ```
@@ -47,7 +47,7 @@ sudo udevadm control --reload-rules
 You may need to unplug and replug FPGA USB cable if it is already attached
 when the rules are reloaded.
 
-/Virtual machine/: If running Ubuntu in a VM (eg VirtualBox), in your
+**Virtual machine**: If running Ubuntu in a VM (eg VirtualBox), in your
 hypervisor config create mappings to passthrough USB devices with the vendor
 IDs and product IDs listed above - you will probably only need those in the
 USB Blaster II section.
@@ -99,3 +99,59 @@ the licence setup.  (If you are prompted about installing devices, or asked
 what to do about licences, something went wrong in your installation or
 licence config respectively).
 
+
+ARM (HPS) template project for the DE10-Pro SX
+----------------------------------------------
+
+To obtain and build the ARM-side template project for the DE10Pro:
+
+```
+git clone https://github.com/CTSRD-CHERI/de10pro-hps-template.git
+```
+
+In Quartus GUI, File->Open Project, select de10pro-hps-template/DE10_Pro.qpf.
+
+Press the 'Play' button on the toolbar, or Processing->Start Compliation, to
+compile.  Compilations should take about 20 minutes.
+
+
+Building the Ubuntu SD card image
+---------------------------------
+
+When the Stratix 10 is set to boot ARM-side MMC-first (rather than FPGA-side
+first), we need to provide an SD card image with the following components
+
+* FPGA HPS configuration bitfile
+* FPGA I/O partial configuration bitfile (enables ARM access to DDR4 RAM)
+* U-boot bootloader
+* U-boot Device Tree
+* Linux kernel
+* Linux Device Tree
+* Linux initramfs
+* Linux root filesystem
+
+This is built in the following way:
+
+```
+sudo apt install libncurses-dev libssl-dev device-tree-compiler
+git clone https://github.com/CTSRD-CHERI/de10pro-hps-ubuntu-sdcard-cheri.git
+cd de10pro-hps-ubuntu-sdcard-cheri
+git submodule init
+git submodule update
+mkdir payload
+# this merges files from the tree in 'payload' into the image and installs the
+# packages vim-tiny and openssh-server
+./scripts/build_ubuntu_sdcard.sh \
+  ../de10pro-hps-template DE10_Pro DE10_Pro_HPS payload \
+  vim-tiny openssh-server  \
+  | tee sdbuild.log
+```
+
+When the Linux config menu appears, just cursor to Exit and press Enter. 
+Then press Enter to confirm no device tree edits for Linux, and later again
+for U-boot.  
+
+A file sdimage.img should be generated which is suitable for writing to an
+SD card via dd, Etcher or [USBImager](https://gitlab.com/bztsrc/usbimager)).
+
+If something goes wrong, a log is produced in sdbuild.log.
