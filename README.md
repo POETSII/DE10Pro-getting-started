@@ -156,7 +156,126 @@ When the Linux config menu appears, just cursor to Exit and press Enter.
 Then press Enter to confirm no device tree edits for Linux, and later again
 for U-boot.  
 
-A file sdimage.img should be generated which is suitable for writing to an
-SD card via dd, Etcher or [USBImager](https://gitlab.com/bztsrc/usbimager)).
+A file sdimage.img should be generated which is suitable for writing to a
+Micro SD card via dd, Etcher or [USBImager](https://gitlab.com/bztsrc/usbimager)).
 
 If something goes wrong, a log is produced in sdbuild.log.
+
+
+Booting the DE10
+----------------
+
+Attach power to the DE10 board.  Attach a cable to the Mini USB port on the
+Terasic HPS daughterboard.  Fit the SD card into the slot on the rear of the
+DE10.  Check the DIP switches on the rear are set as below:
+
+FIXME: DIP switch image
+
+Run a serial console
+```
+sudo apt install picocom
+sudo usermod -a -G dialout $USER
+sudo picocom -b 115200 /dev/ttyUSB0
+```
+
+(the group-add won't take effect until you next logout - after that you can
+drop the `sudo` before `picocom`)
+
+Watch as the DE10 boots.  You should get to a login prompt.
+**Wait!** On first boot user account provision doesn't come through until cloud-init
+starts, which might be up to a minute later.  Wait until cloud-init displays some
+messages, like:
+
+```
+fpga login: 
+[   50.854071] cloud-init[2039]: Cloud-init v. 20.2-45-g5f7825e2-0ubuntu1~18.04.1 running 'modules:config' at Sun, 28 Jan 2018 15:59:03 +0000. Up 48.15 seconds.
+...
+[   55.026003] cloud-init[2074]: Cloud-init v. 20.2-45-g5f7825e2-0ubuntu1~18.04.1 finished at Sun, 28 Jan 2018 15:59:10 +0000. Datasource DataSourceNoCloud [seed=/dev/mmcblk0p1][dsmode=net].  Up 54.97 seconds
+```
+
+Now you can login with username/password `ubuntu`/`ubuntu`.  You'll be prompted
+to change your password.  Next time you boot you can login with this
+password - you don't need to wait for cloud-init.
+
+
+FPGA boot bitfile configuration
+--------------------------
+
+The HPS-first FPGA boot process goes like this:
+
+- A bitfile for HPS I/Os is loaded from QSPI flash.  This is enough to
+  configure the SD/MMC controller, HPS ethernet and HPS USB
+- A U-boot second stage bootloader is embedded in this bitfile, which loads the
+remainder of U-boot from the SD card. U-boot loads a Device Tree file (for itself)
+- U-boot has a .scr script file describing what to do next
+- In our image, we mount the SD/MMC card. We then partially configure the FPGA with
+the bitfile we built above, which connects a DDR4 memory controller to the ARM
+- Then we load a Linux kernel, Linux Device Tree, and initramfs
+- We then boot Linux
+- At a later time, Linux can use the [FPGA Manager
+API](https://www.kernel.org/doc/html/latest/driver-api/fpga/fpga-mgr.html)
+to partially reconfigure further bitfiles (and their Device Trees to
+configure Linux appropriately).  In the case of the Stratix 10
+the Linux kernel makes a call to the still-resident U-boot firmware which does the
+reprogramming.
+
+The SD card contains the FPGA+ARM bitfile we built above, which gets loaded
+into the FPGA by U-boot.  However, being a partial reconfiguration bitfile,
+it depends on a matching bitfile being present in QSPI flash.
+
+If your DE10 is unmodified, the bitfile in QSPI won't match the part we
+built, and the FPGA configuration by U-boot will fail (but boot will
+continue anyway and succeed):
+```
+U-Boot 2017.09-00157-gdec0cf16d1 (Jan 26 2021 - 12:03:43 +0000)socfpga_stratix10
+
+CPU:   Intel FPGA SoCFPGA Platform
+FPGA:  Intel FPGA Stratix 10
+Model: Terasic DE10-Pro
+DRAM:  2 GiB
+MMC:   dwmmc0@0xff808000: 0
+*** Warning - bad CRC, using default environment
+
+In:    serial
+Out:   serial
+Err:   serial
+Model: Terasic DE10-Pro
+Net:   No ethernet found.
+Hit any key to stop autoboot:  0 
+reading u-boot.scr
+313 bytes read in 3 ms (101.6 KiB/s)
+## Executing script at 02100000
+reading socfpga.core.rbf
+1757184 bytes read in 119 ms (14.1 MiB/s)
+..RECONFIG_DATA error: 00000002, Unknown error!
+```
+
+To resolve this problem without the QSPI being reflashed, we need to override
+the QSPI bitfile by programming the DE10 via JTAG.  This can be done by
+connecting a Micro USB cable to the port on the DE10 rear bracket (not the
+HPS daughterboard).  To confim a successful JTAG connection, run
+`jtagconfig` - you should see:
+
+```
+$ jtagconfig
+1) DE10-Pro [1-13.2]
+  6BA00477   S10HPS
+  C322D0DD   1SX280HH1(.|S3)/1SX280HH2/..
+```
+
+To program the FPGA, run:
+```
+quartus_pgm -m jtag -o P\;de10pro-hps-template/output_files/DE10_Pro-hps.hps.rbf@2
+```
+
+When the FPGA comes out of reset it will start the SD card.  You should see
+U-boot then correctly reprograms the FPGA:
+
+```
+Hit any key to stop autoboot:  0 
+reading u-boot.scr
+313 bytes read in 3 ms (101.6 KiB/s)
+## Executing script at 02100000
+reading socfpga.core.rbf
+1757184 bytes read in 118 ms (14.2 MiB/s)
+```
