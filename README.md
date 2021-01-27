@@ -157,7 +157,7 @@ Then press Enter to confirm no device tree edits for Linux, and later again
 for U-boot.  
 
 A file sdimage.img should be generated which is suitable for writing to a
-Micro SD card via dd, Etcher or [USBImager](https://gitlab.com/bztsrc/usbimager)).
+Micro SD card via dd, Etcher or [USBImager](https://gitlab.com/bztsrc/usbimager).
 
 If something goes wrong, a log is produced in sdbuild.log.
 
@@ -169,7 +169,7 @@ Attach power to the DE10 board.  Attach a cable to the Mini USB port on the
 Terasic HPS daughterboard.  Fit the SD card into the slot on the rear of the
 DE10.  Check the DIP switches on the rear are set as below:
 
-FIXME: DIP switch image
+![DE10 DIP switch settings](de10-dip-switches-hpsboot.jpg)
 
 Run a serial console
 ```
@@ -182,7 +182,7 @@ sudo picocom -b 115200 /dev/ttyUSB0
 drop the `sudo` before `picocom`)
 
 Watch as the DE10 boots.  You should get to a login prompt.
-**Wait!** On first boot user account provision doesn't come through until cloud-init
+**Wait!** On first boot, user account provision doesn't come through until cloud-init
 starts, which might be up to a minute later.  Wait until cloud-init displays some
 messages, like:
 
