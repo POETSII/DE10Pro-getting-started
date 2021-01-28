@@ -171,9 +171,10 @@ If something goes wrong, a log is produced in sdbuild.log.
 Booting the DE10
 ----------------
 
-Attach power to the DE10 board.  Attach a cable to the Mini USB port on the
-Terasic HPS daughterboard.  Fit the SD card into the slot on the rear of the
-DE10.  Check the DIP switches on the rear are set as below:
+Attach power to the DE10 board but leave it turned off.  Attach a cable to
+the Mini USB port on the Terasic HPS daughterboard.  Fit the SD card into
+the slot on the rear of the DE10.  Check the DIP switches on the rear are
+set as below:
 
 ![DE10 DIP switch settings](de10-dip-switches-hpsboot.jpg)
 
@@ -187,7 +188,8 @@ sudo picocom -b 115200 /dev/ttyUSB0
 (the group-add won't take effect until you next logout - after that you can
 drop the `sudo` before `picocom`)
 
-Watch as the DE10 boots.  You should get to a login prompt.
+Switch on the DE10 and watch the console as it boots.  You should see first
+U-boot and then Linux messages and eventually get to a login prompt.
 **Wait!** On first boot, user account provision doesn't come through until cloud-init
 starts, which might be up to a minute later.  Wait until cloud-init displays some
 messages, like:
