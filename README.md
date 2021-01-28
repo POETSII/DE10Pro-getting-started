@@ -116,6 +116,7 @@ git clone https://github.com/CTSRD-CHERI/de10pro-hps-template.git
 
 You may also wish to check out a branch with some code to slow down the fan:
 ```
+cd de10pro-hps-template
 git checkout fancontroller
 ```
 
