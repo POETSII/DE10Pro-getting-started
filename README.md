@@ -114,6 +114,11 @@ To obtain and build the ARM-side template project for the DE10Pro:
 git clone https://github.com/CTSRD-CHERI/de10pro-hps-template.git
 ```
 
+You may also wish to check out a branch with some code to slow down the fan:
+```
+git checkout fancontroller
+```
+
 In Quartus GUI, File->Open Project, select de10pro-hps-template/DE10_Pro.qpf.
 
 Press the 'Play' button on the toolbar, or Processing->Start Compliation, to
@@ -279,3 +284,7 @@ reading u-boot.scr
 reading socfpga.core.rbf
 1757184 bytes read in 118 ms (14.2 MiB/s)
 ```
+
+If you built the `fancontroller` branch at this point the fan should
+quieten down - this is a successful partial reconfiguration.
+
