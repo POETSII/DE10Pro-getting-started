@@ -185,8 +185,8 @@ sudo usermod -a -G dialout $USER
 sudo picocom -b 115200 /dev/ttyUSB0
 ```
 
-(the group-add won't take effect until you next logout - after that you can
-drop the `sudo` before `picocom`)
+(the `usermod` adds your user to the dialout group, which won't take effect until
+you next logout - after that you can drop the `sudo` before `picocom`)
 
 Switch on the DE10 and watch the console as it boots.  You should see first
 U-boot and then Linux messages and eventually get to a login prompt.
