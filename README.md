@@ -291,3 +291,8 @@ reading socfpga.core.rbf
 If you built the `fancontroller` branch at this point the fan should
 quieten down - this is a successful partial reconfiguration.
 
+
+Future extensions to this guide
+-------------------------------
+
+See the <TODO.md> list.
