@@ -295,4 +295,4 @@ quieten down - this is a successful partial reconfiguration.
 Future extensions to this guide
 -------------------------------
 
-See the [TODO list][TODO.md]
+See the [TODO list](TODO.md)
