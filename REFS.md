@@ -14,3 +14,10 @@ Pointers to documentation with comments on the quality and applicability of the 
 
 * [Arria 10 SoC Hardware Reference Design That Demonstrates Partial Reconfiguration](https://rocketboards.org/foswiki/Projects/Arria10SoCHardwareReferenceDesignThatDemostratesPartialReconfiguration)
   Example for Arria 10 SoC FPGAs that has many similarities with Stratix 10.
+
+
+## Reconfiguration from the HPS (ARM) side
+
+* [Stratix 10 SoC - Configuring FPGA from HPS Design Example](https://rocketboards.org/foswiki/Projects/Stratix10SoCConfiguringFPGAfromHPSDesignExample)
+  An example from RocketBoards 20 Jan 2021, which is somewhat helpful.
+
