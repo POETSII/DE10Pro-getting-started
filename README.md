@@ -111,16 +111,16 @@ ARM (HPS) template project for the DE10-Pro SX
 To obtain and build the ARM-side template project for the DE10Pro:
 
 ```
-git clone https://github.com/CTSRD-CHERI/de10pro-hps-template.git
+git clone https://github.com/POETSII/DE10Pro-hps-template.git
 ```
 
 You may also wish to check out a branch with some code to slow down the fan:
 ```
-cd de10pro-hps-template
+cd DE10Pro-hps-template
 git checkout fancontroller
 ```
 
-In Quartus GUI, File->Open Project, select de10pro-hps-template/DE10_Pro.qpf.
+In Quartus GUI, File->Open Project, select DE10Pro-hps-template/DE10_Pro.qpf.
 
 Press the 'Play' button on the toolbar, or Processing->Start Compliation, to
 compile.  Compilations should take about 20 minutes.
@@ -145,15 +145,15 @@ This is built in the following way:
 
 ```
 sudo apt install libncurses-dev libssl-dev device-tree-compiler
-git clone https://github.com/CTSRD-CHERI/de10pro-hps-ubuntu-sdcard-cheri.git
-cd de10pro-hps-ubuntu-sdcard-cheri
+git clone https://github.com/POETSII/DE10Pro-hps-ubuntu-sdcard.git
+cd DE10Pro-hps-ubuntu-sdcard
 git submodule init
 git submodule update
 mkdir payload
 # this merges files from the tree in 'payload' into the image and installs the
 # packages vim-tiny and openssh-server
 ./scripts/build_ubuntu_sdcard.sh \
-  ../de10pro-hps-template DE10_Pro DE10_Pro_HPS payload \
+  ../DE10Pro-hps-template DE10_Pro DE10_Pro_HPS payload \
   vim-tiny openssh-server  \
   | tee sdbuild.log
 ```
@@ -273,7 +273,7 @@ $ jtagconfig
 
 To program the FPGA, run:
 ```
-quartus_pgm -m jtag -o P\;de10pro-hps-template/output_files/DE10_Pro-hps.hps.rbf@2
+quartus_pgm -m jtag -o P\;DE10Pro-hps-template/output_files/DE10_Pro-hps.hps.rbf@2
 ```
 
 When the FPGA comes out of reset it will start the SD card.  You should see
