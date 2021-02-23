@@ -144,7 +144,7 @@ first), we need to provide an SD card image with the following components
 This is built in the following way:
 
 ```
-sudo apt install libncurses-dev libssl-dev device-tree-compiler
+sudo apt install libncurses-dev libssl-dev device-tree-compiler bison flex
 git clone https://github.com/POETSII/DE10Pro-hps-ubuntu-sdcard.git
 cd DE10Pro-hps-ubuntu-sdcard
 git submodule init
