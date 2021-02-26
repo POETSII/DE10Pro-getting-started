@@ -21,7 +21,7 @@ of Quartus to another is **not straightforward** and you should think
 carefully before building with a different version.
 
 ```
-sudo apt install aria2
+sudo apt install aria2 libncurses5 libncurses-dev zlib1g-dev
 git clone https://github.com/CTSRD-CHERI/quartus-install.git
 sudo mkdir -p /local/ecad/altera
 sudo chown -R $USER:$USER /local/ecad/altera
