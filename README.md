@@ -80,7 +80,7 @@ export QUARTUS_ROOTDIR=/local/ecad/altera/19.2pro/quartus
 export PATH=$QUARTUS_ROOTDIR/bin:\
 $QUARTUS_ROOTDIR/../qsys/bin:$QUARTUS_ROOTDIR/../nios2eds/bin:\
 $QUARTUS_ROOTDIR/../nios2eds/sdk2/bin:\
-$QUARTUS_ROOTDIR/../nios2eds/bin/gnu/H-x86_64-pc-linux-gnu:\
+$QUARTUS_ROOTDIR/../nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin:\
 $PATH
 ```
 
