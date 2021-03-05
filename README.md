@@ -76,7 +76,12 @@ export LM_LICENSE_FILE=27012@localhost
 You will also need to add it to your PATH:
 ```
 export QUARTUS_ROOTDIR=/local/ecad/altera/19.2pro/quartus
-export PATH=$QUARTUS_ROOTDIR/bin:$QUARTUS_ROOTDIR/../qsys/bin:$QUARTUS_ROOTDIR/../nios2eds/bin:$QUARTUS_ROOTDIR/../nios2eds/sdk2/bin:$PATH
+
+export PATH=$QUARTUS_ROOTDIR/bin:\
+$QUARTUS_ROOTDIR/../qsys/bin:$QUARTUS_ROOTDIR/../nios2eds/bin:\
+$QUARTUS_ROOTDIR/../nios2eds/sdk2/bin:\
+$QUARTUS_ROOTDIR/../nios2eds/bin/gnu/H-x86_64-pc-linux-gnu:\
+$PATH
 ```
 
 On CL servers these are combined in a script, which takes as a parameter the
