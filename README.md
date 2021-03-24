@@ -73,6 +73,13 @@ ssh -L 27012:lmserv-altera.cl.cam.ac.uk:27012 \
 export LM_LICENSE_FILE=27012@localhost
 ```
 
+If opting for the SSH tunnel approach, consider also editing your `/etc/hosts`
+file as root, adding the following line to it:
+```
+127.0.0.1    lmserv-altera.cl.cam.ac.uk
+```
+This resolves slowness issues when running the various `quartus_*` tools.
+
 You will also need to add it to your PATH:
 ```
 export QUARTUS_ROOTDIR=/local/ecad/altera/19.2pro/quartus
@@ -158,9 +165,9 @@ mkdir payload
   | tee sdbuild.log
 ```
 
-When the Linux config menu appears, just cursor to Exit and press Enter. 
+When the Linux config menu appears, just cursor to Exit and press Enter.
 Then press Enter to confirm no device tree edits for Linux, and later again
-for U-boot.  
+for U-boot.
 
 A file sdimage.img should be generated which is suitable for writing to a
 Micro SD card via dd, Etcher or [USBImager](https://gitlab.com/bztsrc/usbimager).
